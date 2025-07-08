@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BRAINROT | Memes em Miniatura</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;700&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --preto-profundo: #0a0a0a;
+      --branco-neve: #f9f9f9;
+      --dourado-sutil: #d4af37;
+      --sombra-suave: 0 4px 30px rgba(0, 0, 0, 0.05);
+      --transicao-padrao: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Cormorant Garamond', serif;
+      background-color: var(--branco-neve);
+      color: var(--preto-profundo);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 15px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(249, 249, 249, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--dourado-sutil);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: var(--preto-profundo);
+      text-decoration: none;
+      font-size: 1rem;
+      position: relative;
+      padding-bottom: 5px;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--dourado-sutil);
+      transition: var(--transicao-padrao);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    .carrinho-btn {
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      padding: 8px 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: var(--transicao-padrao);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .carrinho-btn:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    main {
+      margin-top: 70px;
+      padding: 30px 5%;
+    }
+
+    .hero {
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80') center/cover no-repeat;
+      opacity: 0.4;
+      z-index: -1;
+    }
+
+    .hero h1 {
+      font-size: 2rem;
+      font-weight: 400;
+      max-width: 90%;
+      margin: 0 auto;
+      line-height: 1.2;
+      padding: 0 10px;
+    }
+
+    .hero h1 span {
+      font-style: italic;
+      position: relative;
+    }
+
+    .hero h1 span::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--dourado-sutil);
+    }
+
+    .colecao-titulo {
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 30px;
+      text-align: center;
+      position: relative;
+      padding-bottom: 15px;
+    }
+
+    .colecao-titulo::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 1px;
+      background: var(--dourado-sutil);
+    }
+
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 25px;
+      margin-bottom: 60px;
+    }
+
+    .produto {
+      background: var(--branco-neve);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: var(--transicao-padrao);
+      box-shadow: var(--sombra-suave);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .produto:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .produto-imagem-container {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .produto img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 20px;
+      background: var(--branco-neve);
+      transition: var(--transicao-padrao);
+    }
+
+    .produto:hover img {
+      transform: scale(1.03);
+    }
+
+    .produto-info {
+      padding: 20px;
+    }
+
+    .produto .nome {
+      font-size: 1.2rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .produto .descricao {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      color: #555;
+      margin-bottom: 15px;
+      font-weight: 300;
+    }
+
+    .produto .preco {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 15px 0;
+      color: var(--dourado-sutil);
+    }
+
+    .btn-adicionar {
+      width: 100%;
+      padding: 12px;
+      background: var(--branco-neve);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: var(--transicao-padrao);
+    }
+
+    .btn-adicionar:hover {
+      background: rgba(212, 175, 55, 0.05);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 10, 10, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: var(--transicao-padrao);
+    }
+
+    .modal.ativo {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-conteudo {
+      background: var(--branco-neve);
+      width: 95%;
+      max-width: 500px;
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 25px;
+      position: relative;
+      border-radius: 2px;
+    }
+
+    .fechar-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .carrinho-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 15px;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .carrinho-item img {
+      width: 100%;
+      height: 60px;
+      object-fit: contain;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .carrinho-item-info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .quantidade-controle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 5px;
+    }
+
+    .quantidade-controle button {
+      width: 22px;
+      height: 22px;
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .remover-item {
+      background: none;
+      border: none;
+      color: #999;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    footer {
+      padding: 50px 5% 30px;
+      text-align: center;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .contato-footer {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contato-footer a {
+      color: var(--preto-profundo);
+      text-decoration: none;
+      position: relative;
+      font-size: 0.9rem;
+    }
+
+    .contato-footer a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--dourado-sutil);
+      transition: var(--transicao-padrao);
+    }
+
+    .contato-footer a:hover::after {
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--branco-neve);
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 15px;
+        border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        transform: translateY(-150%);
+        transition: var(--transicao-padrao);
+      }
+
+      nav.ativo {
+        transform: translateY(0);
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      .colecao-titulo {
+        font-size: 1.5rem;
+      }
+
+      .catalogo {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">BRAINROT</div>
+    <button class="menu-toggle">☰</button>
+    <nav>
+      <a href="#" class="pagina-link" data-pagina="home">Catálogo</a>
+      <a href="#" class="pagina-link" data-pagina="sobre">Manifesto</a>
+    </nav>
+    <button class="carrinho-btn" id="abrir-carrinho">
+      Carrinho <span id="carrinho-contador">0</span>
+    </button>
+  </header>
+
+  <main>
+    <section id="home" class="pagina">
+      <div class="hero">
+        <h1>Memes em <span>Miniatura</span></h1>
+      </div>
+      
+      <h2 class="colecao-titulo">Coleção Memes Eternos</h2>
+      
+      <div class="catalogo">
+        <!-- Produto 1 -->
+        <div class="produto">
+          <div class="produto-imagem-container">
+            <img src="https://pngdownload.io/wp-content/uploads/2025/04/tralalero-tralala-Transparent-768x647.webp" alt="Chaveiro Tralalelo">
+          </div>
+          <div class="produto-info">
+            <h3 class="nome">Chaveiro "Tralalelo"</h3>
+            <p class="descricao">O meme clássico que viralizou, agora em formato colecionável.</p>
+            <div class="preco">R$ 4,00</div>
+            <button class="btn-adicionar" data-id="1">Adicionar ao Carrinho</button>
+          </div>
+        </div>
+        
+        <!-- Produto 2 -->
+        <div class="produto">
+          <div class="produto-imagem-container">
+            <img src="https://pngdownload.io/wp-content/uploads/2025/04/Bombardino-Crocodillo-Viral-TikTok-Meme-Transparent-768x480.webp" alt="Chaveiro Bombardino">
+          </div>
+          <div class="produto-info">
+            <h3 class="nome">Chaveiro "Bombardino"</h3>
+            <p class="descricao">O crocodilo dançarino que conquistou o TikTok.</p>
+            <div class="preco">R$ 4,00</div>
+            <button class="btn-adicionar" data-id="2">Adicionar ao Carrinho</button>
+          </div>
+        </div>
+        
+        <!-- Produto 3 -->
+        <div class="produto">
+          <div class="produto-imagem-container">
+            <img src="https://static.wikia.nocookie.net/gametoons-reloaded/images/7/72/Tung.png/revision/latest?cb=20250616102727" alt="Chaveiro Tung Tung">
+          </div>
+          <div class="produto-info">
+            <h3 class="nome">Chaveiro "Tung Tung"</h3>
+            <p class="descricao">O som icônico do universo gamer em forma física.</p>
+            <div class="preco">R$ 4,00</div>
+            <button class="btn-adicionar" data-id="3">Adicionar ao Carrinho</button>
+          </div>
+        </div>
+        
+        <!-- Produto 4 -->
+        <div class="produto">
+          <div class="produto-imagem-container">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmekdj7z9JgYzAARotF1wVwY4TS-N6yjD-NQ&s" alt="Chaveiro Brr Brr">
+          </div>
+          <div class="produto-info">
+            <h3 class="nome">Chaveiro "Brr Brr"</h3>
+            <p class="descricao">A expressão mais aleatória da internet, agora palpável.</p>
+            <div class="preco">R$ 4,00</div>
+            <button class="btn-adicionar" data-id="4">Adicionar ao Carrinho</button>
+          </div>
+        </div>
+        
+        <!-- Produto 5 - Cappuccino Assassino -->
+        <div class="produto">
+          <div class="produto-imagem-container">
+            <img src="https://pngdownload.io/wp-content/uploads/2025/05/Cappuccino-Assassino-Viral-TikTok-250x225.webp" alt="Chaveiro Cappuccino">
+          </div>
+          <div class="produto-info">
+            <h3 class="nome">Chaveiro "Cappuccino"</h3>
+            <p class="descricao">O assassino mais estiloso das redes sociais.</p>
+            <div class="preco">R$ 4,00</div>
+            <button class="btn-adicionar" data-id="5">Adicionar ao Carrinho</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre" class="pagina" style="display:none;">
+      <div class="sobre">
+        <h2 class="colecao-titulo">Manifesto Brainrot</h2>
+        <p style="margin-bottom: 20px;">Transformamos memes efêmeros em objetos físicos colecionáveis. Cada peça é uma cápsula do tempo da cultura digital.</p>
+        <p>Nossa missão é materializar o humor da internet com qualidade e acessibilidade, para que você possa carregar seus memes favoritos no bolso.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="modal-carrinho">
+    <div class="modal-conteudo">
+      <button class="fechar-modal" id="fechar-carrinho">&times;</button>
+      <h2 class="colecao-titulo">Seu Carrinho</h2>
+      <div id="carrinho-itens"></div>
+      <div class="carrinho-total" style="text-align: right; margin-top: 20px; font-size: 1.2rem;">
+        Total: <span id="carrinho-total">R$ 0,00</span>
+      </div>
+      <button id="finalizar-compra" style="width: 100%; margin-top: 20px; padding: 12px; background: var(--preto-profundo); color: white; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif; letter-spacing: 1px;">Finalizar Compra</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">BRAINROT</div>
+    <p>Memes em Miniatura</p>
+    <div class="contato-footer">
+      <a href="tel:+5511958820378">(11) 95882-0378</a>
+      <a href="mailto:contato@brainrot.com">contato@brainrot.com</a>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Dados dos produtos
+      const produtos = {
+        1: { nome: 'Chaveiro "Tralalelo"', preco: 4.00, imagem: 'https://pngdownload.io/wp-content/uploads/2025/04/tralalero-tralala-Transparent-768x647.webp' },
+        2: { nome: 'Chaveiro "Bombardino"', preco: 4.00, imagem: 'https://pngdownload.io/wp-content/uploads/2025/04/Bombardino-Crocodillo-Viral-TikTok-Meme-Transparent-768x480.webp' },
+        3: { nome: 'Chaveiro "Tung Tung"', preco: 4.00, imagem: 'https://static.wikia.nocookie.net/gametoons-reloaded/images/7/72/Tung.png/revision/latest?cb=20250616102727' },
+        4: { nome: 'Chaveiro "Brr Brr"', preco: 4.00, imagem: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmekdj7z9JgYzAARotF1wVwY4TS-N6yjD-NQ&s' },
+        5: { nome: 'Chaveiro "Cappuccino"', preco: 4.00, imagem: 'https://pngdownload.io/wp-content/uploads/2025/05/Cappuccino-Assassino-Viral-TikTok-250x225.webp' }
+      };
+
+      // Carrinho e elementos
+      let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+      const menuToggle = document.querySelector('.menu-toggle');
+      const nav = document.querySelector('nav');
+      const abrirCarrinhoBtn = document.getElementById('abrir-carrinho');
+      const fecharCarrinhoBtn = document.getElementById('fechar-carrinho');
+      const modalCarrinho = document.getElementById('modal-carrinho');
+      const carrinhoItens = document.getElementById('carrinho-itens');
+      const carrinhoTotal = document.getElementById('carrinho-total');
+      const carrinhoContador = document.getElementById('carrinho-contador');
+      const finalizarCompraBtn = document.getElementById('finalizar-compra');
+      const paginaLinks = document.querySelectorAll('.pagina-link');
+      const paginas = document.querySelectorAll('.pagina');
+
+      // Menu mobile
+      menuToggle.addEventListener('click', () => {
+        nav.classList.toggle('ativo');
+      });
+
+      // Navegação
+      paginaLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          nav.classList.remove('ativo');
+          const paginaAlvo = this.dataset.pagina;
+          
+          paginas.forEach(pagina => {
+            pagina.style.display = 'none';
+          });
+          
+          document.getElementById(paginaAlvo).style.display = 'block';
+          window.scrollTo(0, 0);
+        });
+      });
+      
+      // Carrinho
+      abrirCarrinhoBtn.addEventListener('click', () => {
+        modalCarrinho.classList.add('ativo');
+        document.body.style.overflow = 'hidden';
+        atualizarCarrinho();
+      });
+      
+      fecharCarrinhoBtn.addEventListener('click', () => {
+        modalCarrinho.classList.remove('ativo');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // Adicionar ao carrinho
+      document.querySelectorAll('.btn-adicionar').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const produtoId = this.dataset.id;
+          const produto = produtos[produtoId];
+          
+          const itemExistente = carrinho.find(item => item.id === produtoId);
+          
+          if (itemExistente) {
+            itemExistente.quantidade++;
+          } else {
+            carrinho.push({
+              id: produtoId,
+              nome: produto.nome,
+              preco: produto.preco,
+              imagem: produto.imagem,
+              quantidade: 1
+            });
+          }
+          
+          localStorage.setItem('carrinho', JSON.stringify(carrinho));
+          atualizarContador();
+          
+          // Feedback visual
+          this.textContent = '✓ Adicionado';
+          setTimeout(() => {
+            this.textContent = 'Adicionar ao Carrinho';
+          }, 1500);
+        });
+      });
+      
+      // Finalizar compra
+      finalizarCompraBtn.addEventListener('click', () => {
+        if (carrinho.length === 0) return;
+        
+        let mensagem = 'Olá, gostaria de comprar:\n\n';
+        
+        carrinho.forEach(item => {
+          mensagem += `▸ ${item.nome} (${item.quantidade}x) - R$ ${(item.preco * item.quantidade).toFixed(2)}\n`;
+        });
+        
+        mensagem += `\nTotal: R$ ${carrinho.reduce((total, item) => total + (item.preco * item.quantidade), 0).toFixed(2)}`;
+        
+        window.open(`https://wa.me/5511958820378?text=${encodeURIComponent(mensagem)}`, '_blank');
+      });
+      
+      // Atualizar contador
+      function atualizarContador() {
+        const totalItens = carrinho.reduce((total, item) => total + item.quantidade, 0);
+        carrinhoContador.textContent = totalItens;
+      }
+      
+      // Atualizar carrinho
+      function atualizarCarrinho() {
+        if (carrinho.length === 0) {
+          carrinhoItens.innerHTML = '<p style="text-align: center; margin: 30px 0;">Seu carrinho está vazio</p>';
+          carrinhoTotal.textContent = 'R$ 0,00';
+          return;
+        }
+        
+        let html = '';
+        let total = 0;
+        
+        carrinho.forEach((item, index) => {
+          const subtotal = item.preco * item.quantidade;
+          total += subtotal;
+          
+          html += `
+            <div class="carrinho-item">
+              <img src="${item.imagem}" alt="${item.nome}">
+              <div class="carrinho-item-info">
+                <h4>${item.nome}</h4>
+                <p>R$ ${item.preco.toFixed(2)}</p>
+                <div class="quantidade-controle">
+                  <button data-index="${index}" class="diminuir-quantidade">-</button>
+                  <span>${item.quantidade}</span>
+                  <button data-index="${index}" class="aumentar-quantidade">+</button>
+                </div>
+                <p>Subtotal: R$ ${subtotal.toFixed(2)}</p>
+                <button data-index="${index}" class="remover-item">Remover</button>
+              </div>
+            </div>
+          `;
+        });
+        
+        carrinhoItens.innerHTML = html;
+        carrinhoTotal.textContent = `R$ ${total.toFixed(2)}`;
+        
+        // Eventos para os controles
+        document.querySelectorAll('.diminuir-quantidade').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const index = this.dataset.index;
+            if (carrinho[index].quantidade > 1) {
+              carrinho[index].quantidade--;
+            } else {
+              carrinho.splice(index, 1);
+            }
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            atualizarContador();
+          });
+        });
+        
+        document.querySelectorAll('.aumentar-quantidade').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const index = this.dataset.index;
+            carrinho[index].quantidade++;
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            atualizarContador();
+          });
+        });
+        
+        document.querySelectorAll('.remover-item').forEach(btn => {
+          btn.addEventListener('click', function() {
+            const index = this.dataset.index;
+            carrinho.splice(index, 1);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            atualizarCarrinho();
+            atualizarContador();
+          });
+        });
+      }
+      
+      // Inicialização
+      atualizarContador();
+    });
+  </script>
+</body>
+</html>
